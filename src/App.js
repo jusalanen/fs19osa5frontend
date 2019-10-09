@@ -21,27 +21,52 @@ const App = () => {
         console.log(initBlogs)
         setBlogs(initBlogs)
       })
+      console.log(window.localStorage)
   }
   
   useEffect(hook, [])
+
+  useEffect( () => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
+    if (loggedUserJSON) {
+      console.log(loggedUserJSON)
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      setMessage(`${user.name} logged in`)
+      blogService.setToken(user.token)
+    }
+  }, [])
+
 
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
       const user = await loginService.login({
-        username, password,
+        username, password
       })
 
+      window.localStorage.setItem(
+        'loggedBlogappUser', JSON.stringify(user)
+      )
+      console.log(user)
+      console.log(window.localStorage)
+      blogService.setToken(user.token)
       setUser(user)
-      setMessage(user.name + ' logged in')
+      setMessage(`${user.name} logged in`)
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setMessage('wrong credentials')
+      setMessage('wrong username or password')
       setTimeout(() => {
         setMessage(null)
       }, 5000)
     }
+  }
+
+  const logOut = () => {
+    setUser(null)
+    window.localStorage.clear()
+    setMessage(null)
   }
 
   if (user === null) {
@@ -78,8 +103,9 @@ const App = () => {
     <div>
       <h2>Blogs</h2>
 
-      <Notification message={message} />
-
+      <table><tbody><tr><td width='200'><Notification message={message} /></td>
+      <td width='50'><button onClick = { () => {
+        logOut()}}>logout</button></td></tr></tbody></table>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
