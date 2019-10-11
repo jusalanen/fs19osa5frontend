@@ -12,6 +12,7 @@ const App = () => {
   const [ password, setPassword ] = useState('')
   const [user, setUser] = useState(null)
   const [ message, setMessage ] = useState(null)
+  const [ messageType, setMessagetype ] = useState(null)
   const [ newTitle, setNewtitle ] = useState('')
   const [ newAuthor, setNewauthor ] = useState('')
   const [ newUrl, setNewurl ] = useState('')
@@ -36,7 +37,6 @@ const App = () => {
       console.log(loggedUserJSON)
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
-      setMessage(`${user.name} logged in`)
       blogService.setToken(user.token)
     }
   }, [])
@@ -56,7 +56,6 @@ const App = () => {
       console.log(window.localStorage)
       blogService.setToken(user.token)
       setUser(user)
-      setMessage(`${user.name} logged in`)
       setUsername('')
       setPassword('')
     } catch (exception) {
@@ -75,14 +74,27 @@ const App = () => {
 
   const addBlog = async (event) => {
     event.preventDefault()
+    if (newTitle === '' || newUrl === '') {
+        setMessage('title or url missing')
+        setTimeout(() => {
+        setMessage(null)
+      }, 5000)
+      return
+    }
     const blogObject = {
       title: newTitle,
       author: newAuthor,
       url: newUrl
     }
-    const saveBlog = await blogService.create(blogObject)
-    setBlogs(blogs.concat(saveBlog))
+    const savedBlog = await blogService.create(blogObject)
+    setBlogs(blogs.concat(savedBlog))
 
+    setMessage('Added blog ' + newTitle + ' by ' + newAuthor)
+    setMessagetype('success')
+    setTimeout(() => {
+      setMessage(null)
+      setMessagetype(null)
+    }, 5000) 
     setNewtitle('')
     setNewauthor('')
     setNewurl('')
@@ -93,7 +105,6 @@ const App = () => {
       <div>
         <h2>log in to application</h2>
         <Notification message={message} />
-
         <LoginForm handleLogin = {handleLogin}
                 username = {username}
                 setUsername = {setUsername}
@@ -106,7 +117,8 @@ const App = () => {
   return (
     <div>
       <h2>Blogs</h2>
-      <table><tbody><tr><td width='200'><Notification message={message} /></td>
+      <Notification message={message} type={messageType}/>
+      <table><tbody><tr><td width='200'><p>{user.name} logged in </p></td>
       <td width='50'><button onClick = { () => {
         logOut()}}>logout</button></td></tr></tbody></table>
       <BlogForm addBlog = {addBlog}
