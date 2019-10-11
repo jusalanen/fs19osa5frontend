@@ -16,6 +16,7 @@ const App = () => {
   const [ newTitle, setNewtitle ] = useState('')
   const [ newAuthor, setNewauthor ] = useState('')
   const [ newUrl, setNewurl ] = useState('')
+  const [blogformVisible, setBlogformVisible] = useState(false)
 
   const hook = () => {
     console.log('effect')
@@ -100,6 +101,9 @@ const App = () => {
     setNewurl('')
   }
 
+  const hideWhenVisible = { display: blogformVisible ? 'none' : '' }
+  const showWhenVisible = { display: blogformVisible ? '' : 'none' }
+
   if (user === null) {
     return (
       <div>
@@ -121,13 +125,18 @@ const App = () => {
       <table><tbody><tr><td width='200'><p>{user.name} logged in </p></td>
       <td width='50'><button onClick = { () => {
         logOut()}}>logout</button></td></tr></tbody></table>
+      <div style={hideWhenVisible}>
+        <button onClick={() => setBlogformVisible(true)}>new blog</button>
+      </div>
+      <div style={showWhenVisible}>
       <BlogForm addBlog = {addBlog}
                 title = {newTitle}
                 setTitle = {setNewtitle}
                 author = {newAuthor}
                 setAuthor = {setNewauthor}
                 url = {newUrl}
-                setUrl = {setNewurl} /><br></br>
+                setUrl = {setNewurl} />                
+      <button onClick={() => setBlogformVisible(false)}>cancel</button></div><br></br>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
