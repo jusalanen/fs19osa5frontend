@@ -99,6 +99,7 @@ const App = () => {
     setNewtitle('')
     setNewauthor('')
     setNewurl('')
+    setBlogformVisible(false)
   }
 
   const hideWhenVisible = { display: blogformVisible ? 'none' : '' }
@@ -122,7 +123,7 @@ const App = () => {
     <div>
       <h2>Blogs</h2>
       <Notification message={message} type={messageType}/>
-      <table><tbody><tr><td width='200'><p>{user.name} logged in </p></td>
+      <table><tbody><tr><td><p>{user.name} logged in </p></td>
       <td width='50'><button onClick = { () => {
         logOut()}}>logout</button></td></tr></tbody></table>
       <div style={hideWhenVisible}>

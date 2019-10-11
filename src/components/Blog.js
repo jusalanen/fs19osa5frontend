@@ -3,7 +3,7 @@ import React from 'react'
 const Blog = ({ blog }) => {
   return (
     <li className='blog'>
-      {blog.title} {blog.author}
+      {blog.title} by {blog.author}
     </li>
   )
 }
