@@ -70,7 +70,6 @@ const App = () => {
   const logOut = () => {
     setUser(null)
     window.localStorage.clear()
-    setMessage(null)
   }
 
   const addBlog = async (event) => {
