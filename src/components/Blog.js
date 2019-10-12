@@ -1,8 +1,24 @@
 import React, { useState } from 'react'
+import blogService from '../services/blogs'
 
 const Blog = ({ blog }) => {
   const [showDet, setShowDet] = useState(false)
+  const [thisBlog, setThisblog] = useState(blog)
 
+  const likeBlog = async (thisBlog) => {
+    const updatedBlog = { 
+      title: thisBlog.title,
+      author: thisBlog.author,
+      url: thisBlog.url,
+      likes: thisBlog.likes + 1,
+      user: thisBlog.user,
+      id: thisBlog.id
+     }
+    const savedBlog = await blogService
+    .update(thisBlog.id, updatedBlog)
+    setThisblog(savedBlog)
+  }
+ 
   const toggle = () => {
     setShowDet(!showDet)
   }
@@ -12,12 +28,13 @@ const Blog = ({ blog }) => {
   return (
     <div className='blog' border >
       <div onClick={() => toggle()}>
-      {blog.title} by {blog.author}
+      {thisBlog.title} by {thisBlog.author}
       </div>
       <div style ={showOrNot}>
-        <a href={blog.url}>{blog.url}</a><br></br>
-        likes {blog.likes} <button>like</button><br></br>
-        added by {blog.user.name}<br></br>
+        <a href={thisBlog.url}>{thisBlog.url}</a><br></br>
+        likes {thisBlog.likes} <button onClick ={ () => {
+                    likeBlog(thisBlog) }} >like</button><br></br>
+        added by {thisBlog.user.name}<br></br>
       </div>      
     </div>
   )
