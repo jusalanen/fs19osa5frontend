@@ -101,6 +101,20 @@ const App = () => {
     setBlogformVisible(false)
   }
 
+  const removeBlog = async (blog) => {
+    if (window.confirm('Remove blog ' + blog.title + ' by ' + blog.author + '?'))  {
+      try {
+        const resp = await blogService.remove(blog.id)
+        console.log(resp)
+      } catch (ex) {
+        window.alert('Only the creator can remove a blog.')
+      }
+      
+    const blogs = await blogService.getAll()
+    setBlogs(blogs)
+    }
+  }
+
   const hideWhenVisible = { display: blogformVisible ? 'none' : '' }
   const showWhenVisible = { display: blogformVisible ? '' : 'none' }
 
@@ -138,7 +152,7 @@ const App = () => {
                 setUrl = {setNewurl} />                
       <button onClick={() => setBlogformVisible(false)}>cancel</button></div><br></br>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} removeBlog={removeBlog}/>
       )}
     </div>
   )

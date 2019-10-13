@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, removeBlog }) => {
   const [showDet, setShowDet] = useState(false)
   const [thisBlog, setThisblog] = useState(blog)
 
@@ -26,7 +26,7 @@ const Blog = ({ blog }) => {
   const showOrNot = { display: showDet ? '' : 'none' }
   
   return (
-    <div className='blog' border >
+    <div className='blog' border='true' >
       <div onClick={() => toggle()}>
       {thisBlog.title} by {thisBlog.author}
       </div>
@@ -35,6 +35,8 @@ const Blog = ({ blog }) => {
         likes {thisBlog.likes} <button onClick ={ () => {
                     likeBlog(thisBlog) }} >like</button><br></br>
         added by {thisBlog.user.name}<br></br>
+        <button onClick={ () => {
+          removeBlog(thisBlog) }} >remove</button><br></br>
       </div>      
     </div>
   )
