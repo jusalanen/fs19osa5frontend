@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog, removeBlog }) => {
+const Blog = ({ blog, removeBlog, user }) => {
   const [showDet, setShowDet] = useState(false)
-  const [thisBlog, setThisblog] = useState(blog)
+  const [thisBlog, setThisBlog] = useState(blog)
 
   const likeBlog = async (thisBlog) => {
     const updatedBlog = { 
@@ -16,7 +16,7 @@ const Blog = ({ blog, removeBlog }) => {
      }
     const savedBlog = await blogService
     .update(thisBlog.id, updatedBlog)
-    setThisblog(savedBlog)
+    setThisBlog(savedBlog)
   }
  
   const toggle = () => {
@@ -24,6 +24,9 @@ const Blog = ({ blog, removeBlog }) => {
   }
 
   const showOrNot = { display: showDet ? '' : 'none' }
+
+  const showRemove = { 
+    display: thisBlog.user.username === user.username ? '' : 'none'}
   
   return (
     <div className='blog' border='true' >
@@ -35,8 +38,8 @@ const Blog = ({ blog, removeBlog }) => {
         likes {thisBlog.likes} <button onClick ={ () => {
                     likeBlog(thisBlog) }} >like</button><br></br>
         added by {thisBlog.user.name}<br></br>
-        <button onClick={ () => {
-          removeBlog(thisBlog) }} >remove</button><br></br>
+        <button style={showRemove} onClick={ () => {
+          removeBlog(thisBlog) }} >remove</button>
       </div>      
     </div>
   )

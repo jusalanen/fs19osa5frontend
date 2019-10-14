@@ -108,6 +108,7 @@ const App = () => {
         console.log(resp)
       } catch (ex) {
         window.alert('Only the creator can remove a blog.')
+        console.log(ex)
       }
       
     const blogs = await blogService.getAll()
@@ -152,7 +153,7 @@ const App = () => {
                 setUrl = {setNewurl} />                
       <button onClick={() => setBlogformVisible(false)}>cancel</button></div><br></br>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} removeBlog={removeBlog}/>
+        <Blog key={blog.id} blog={blog} removeBlog={removeBlog} user={user}/>
       )}
     </div>
   )
