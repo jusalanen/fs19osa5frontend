@@ -1,21 +1,24 @@
 import React from 'react'
 
 const Notification = (props) => {
-  if (props.message === null) {
+  const message = props.message
+  const type = props.type
+
+  if (message === null) {
     return null
   }
-  if (props.type === 'success') {
+  if (type === 'success') {
     return (
       <div className="notification">
-        { props.message }
+        { message }
       </div>
     )
   }
   return (
     <div className="error">
-      { props.message }
+      { message }
     </div>
   )
 }
 
-export default Notification 
+export default Notification

@@ -7,7 +7,7 @@ import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 
 const App = () => {
-  const [ blogs, setBlogs ] = useState([]) 
+  const [ blogs, setBlogs ] = useState([])
   const [ username, setUsername ] = useState('')
   const [ password, setPassword ] = useState('')
   const [user, setUser] = useState(null)
@@ -27,9 +27,9 @@ const App = () => {
         console.log(initBlogs)
         setBlogs(initBlogs)
       })
-      console.log(window.localStorage)
+    console.log(window.localStorage)
   }
-  
+
   useEffect(hook, [])
 
   useEffect( () => {
@@ -75,8 +75,8 @@ const App = () => {
   const addBlog = async (event) => {
     event.preventDefault()
     if (newTitle === '' || newUrl === '') {
-        setMessage('title or url missing')
-        setTimeout(() => {
+      setMessage('title or url missing')
+      setTimeout(() => {
         setMessage(null)
       }, 5000)
       return
@@ -94,7 +94,7 @@ const App = () => {
     setTimeout(() => {
       setMessage(null)
       setMessagetype(null)
-    }, 5000) 
+    }, 5000)
     setNewtitle('')
     setNewauthor('')
     setNewurl('')
@@ -110,9 +110,8 @@ const App = () => {
         window.alert('Only the creator can remove a blog.')
         console.log(ex)
       }
-      
-    const blogs = await blogService.getAll()
-    setBlogs(blogs)
+      const blogs = await blogService.getAll()
+      setBlogs(blogs)
     }
   }
 
@@ -125,10 +124,10 @@ const App = () => {
         <h2>log in to blog application</h2>
         <Notification message={message} />
         <LoginForm handleLogin = {handleLogin}
-                username = {username}
-                setUsername = {setUsername}
-                password = {password}
-                setPassword = {setPassword} />  
+          username = {username}
+          setUsername = {setUsername}
+          password = {password}
+          setPassword = {setPassword} />
       </div>
     )
   }
@@ -138,26 +137,26 @@ const App = () => {
       <h2>Blogs</h2>
       <Notification message={message} type={messageType}/>
       <table><tbody><tr><td><p>{user.name} logged in </p></td>
-      <td width='50'><button onClick = { () => {
-        logOut()}}>logout</button></td></tr></tbody></table>
+        <td width='50'><button onClick = { () => {
+          logOut()}}>logout</button></td></tr></tbody></table>
       <div style={hideWhenVisible}>
         <button onClick={() => setBlogformVisible(true)}>new blog</button>
       </div>
       <div style={showWhenVisible}>
-      <BlogForm addBlog = {addBlog}
-                title = {newTitle}
-                setTitle = {setNewtitle}
-                author = {newAuthor}
-                setAuthor = {setNewauthor}
-                url = {newUrl}
-                setUrl = {setNewurl} />                
-      <button onClick={() => setBlogformVisible(false)}>cancel</button></div><br></br>
+        <BlogForm addBlog = {addBlog}
+          title = {newTitle}
+          setTitle = {setNewtitle}
+          author = {newAuthor}
+          setAuthor = {setNewauthor}
+          url = {newUrl}
+          setUrl = {setNewurl} />
+        <button onClick={() => setBlogformVisible(false)}>cancel</button></div><br></br>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} removeBlog={removeBlog} user={user}/>
       )}
     </div>
   )
-  
+
 }
 
-export default App;
+export default App
