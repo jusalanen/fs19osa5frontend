@@ -27,12 +27,13 @@ const Blog = ({ blog, removeBlog, user }) => {
 
   const showRemove = {
     display: thisBlog.user.username === user.username ? '' : 'none' }
+
   return (
     <div className='blog' border='true' >
       <div onClick={() => toggle()}>
         {thisBlog.title} by {thisBlog.author}
       </div>
-      <div style ={showOrNot}>
+      <div style ={showOrNot} className='details' >
         <a href={thisBlog.url}>{thisBlog.url}</a><br></br>
         likes {thisBlog.likes} <button onClick ={ () => {
           likeBlog(thisBlog) }} >like</button><br></br>
