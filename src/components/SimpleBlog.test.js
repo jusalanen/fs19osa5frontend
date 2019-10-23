@@ -31,11 +31,11 @@ test('clicking button twice calls event handler 2 times', () => {
     likes: 999
   }
 
-  const handler =  jest.fn()
+  const handler = jest.fn()
 
   const { getByText } = render(
     <SimpleBlog blog={testBlog} onClick={handler}/>
-  ) 
+  )
 
   const button = getByText('like')
   fireEvent.click(button)
