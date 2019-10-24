@@ -12,11 +12,10 @@ it('renders without crashing', () => {
 })
 
 describe('<App />', () => {
-  test('only login form is rendered if no logged user', async () => {
+  test('only login form is rendered if no user has logged in', async () => {
     const component = render(
       <App />
     )
-
     component.rerender(<App />)
 
     await waitForElement(
@@ -26,13 +25,39 @@ describe('<App />', () => {
     expect(component.container).toHaveTextContent(
       'log in to blog application'
     )
-
     expect(component.container).not.toHaveTextContent(
       'Blogs'
     )
+    const blog = component.container.querySelector('.blog')
+    expect(blog).toBeNull()
+  })
 
-    const blog = component.container.querySelector('Blog')
-    expect(blog).toBe(null)
+  test('blogs are rendered if a user has logged in', async () => {
+    const user = {
+      username: 'tester',
+      name: 'Donald Test',
+      token: '1231231214'
+    }
+
+    localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
+
+    const component = render(
+      <App />
+    )
+    component.rerender(<App />)
+
+    await waitForElement(
+      () => component.container.querySelector('h2')
+    )
+
+    expect(component.container).toHaveTextContent(
+      'Blogs'
+    )
+    expect(component.container).not.toHaveTextContent(
+      'log in to blog application'
+    )
+    const blog = component.container.querySelector('.blog')
+    expect(blog).not.toBeNull()
   })
 })
 

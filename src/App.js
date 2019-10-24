@@ -33,7 +33,7 @@ const App = () => {
   useEffect(hook, [])
 
   useEffect( () => {
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
     if (loggedUserJSON) {
       console.log(loggedUserJSON)
       const user = JSON.parse(loggedUserJSON)
@@ -51,7 +51,7 @@ const App = () => {
       })
 
       window.localStorage.setItem(
-        'loggedBlogappUser', JSON.stringify(user)
+        'loggedBlogAppUser', JSON.stringify(user)
       )
       console.log(user)
       console.log(window.localStorage)
@@ -89,8 +89,8 @@ const App = () => {
     const savedBlog = await blogService.create(blogObject)
     setBlogs(blogs.concat(savedBlog))
 
-    setMessage('Added blog ' + newTitle + ' by ' + newAuthor)
     setMessagetype('success')
+    setMessage('Added blog ' + newTitle + ' by ' + newAuthor)
     setTimeout(() => {
       setMessage(null)
       setMessagetype(null)
