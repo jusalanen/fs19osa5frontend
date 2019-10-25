@@ -14,9 +14,9 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [ message, setMessage ] = useState(null)
   const [ messageType, setMessagetype ] = useState(null)
-  const [ newTitle, setNewtitle ] = useState('')
-  const [ newAuthor, setNewauthor ] = useState('')
-  const [ newUrl, setNewurl ] = useState('')
+  const newTitle = useField('text')
+  const newAuthor = useField('text')
+  const newUrl = useField('text')
   const [blogformVisible, setBlogformVisible] = useState(false)
 
   const hook = () => {
@@ -59,6 +59,8 @@ const App = () => {
       console.log(window.localStorage)
       blogService.setToken(user.token)
       setUser(user)
+      username.reset()
+      password.reset()
     } catch (exception) {
       setMessage('wrong username or password')
       setTimeout(() => {
@@ -82,9 +84,9 @@ const App = () => {
       return
     }
     const blogObject = {
-      title: newTitle,
-      author: newAuthor,
-      url: newUrl
+      title: newTitle.value,
+      author: newAuthor.value,
+      url: newUrl.value
     }
     const savedBlog = await blogService.create(blogObject)
     setBlogs(blogs.concat(savedBlog))
@@ -95,9 +97,9 @@ const App = () => {
       setMessage(null)
       setMessagetype(null)
     }, 5000)
-    setNewtitle('')
-    setNewauthor('')
-    setNewurl('')
+    newTitle.reset()
+    newAuthor.reset()
+    newUrl.reset()
     setBlogformVisible(false)
   }
 
@@ -144,11 +146,9 @@ const App = () => {
       <div style={showWhenVisible}>
         <BlogForm addBlog = {addBlog}
           title = {newTitle}
-          setTitle = {setNewtitle}
           author = {newAuthor}
-          setAuthor = {setNewauthor}
           url = {newUrl}
-          setUrl = {setNewurl} />
+        />
         <button onClick={() => setBlogformVisible(false)}>cancel</button></div><br></br>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} removeBlog={removeBlog} user={user}/>

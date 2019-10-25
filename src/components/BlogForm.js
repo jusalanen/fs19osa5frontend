@@ -5,38 +5,24 @@ import PropTypes from 'prop-types'
 const BlogForm = props => {
   const addBlog = props.addBlog
   const title = props.title
-  const setTitle = props.setTitle
   const author = props.author
-  const setAuthor = props.setAuthor
   const url = props.url
-  const setUrl = props.setUrl
 
   return (
     <div>
       <h3>Add a new blog</h3>
       <form onSubmit={addBlog}>
         <div>
-            title <input
-            type="text"
-            value={title}
-            name="Title"
-            onChange={({ target }) => setTitle(target.value)}
-          />
+            title <input {...title}
+            name="Title" />
         </div>
         <div>
-            author <input
-            tyvalue={author}
-            name="Author"
-            onChange={({ target }) => setAuthor(target.value)}
-          />
+            author <input {...author}
+            name="Author" />
         </div>
         <div>
-            url <input
-            type="url"
-            value={url}
-            name="Url"
-            onChange={({ target }) => setUrl(target.value)}
-          />
+            url <input {...url}
+            name="Url" />
         </div>
         <button type="submit">submit</button>
       </form>
@@ -46,12 +32,9 @@ const BlogForm = props => {
 
 BlogForm.propTypes = {
   addBlog: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
-  setTitle: PropTypes.func.isRequired,
-  author: PropTypes.string.isRequired,
-  setAuthor: PropTypes.func.isRequired,
-  url: PropTypes.string.isRequired,
-  setUrl: PropTypes.func.isRequired
+  title: PropTypes.object.isRequired,
+  author: PropTypes.object.isRequired,
+  url: PropTypes.object.isRequired
 }
 
 export default BlogForm
