@@ -5,11 +5,12 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
+import  { useField } from './hooks/index'
 
 const App = () => {
   const [ blogs, setBlogs ] = useState([])
-  const [ username, setUsername ] = useState('')
-  const [ password, setPassword ] = useState('')
+  const username = useField('text')
+  const password = useField('password')
   const [user, setUser] = useState(null)
   const [ message, setMessage ] = useState(null)
   const [ messageType, setMessagetype ] = useState(null)
@@ -47,7 +48,8 @@ const App = () => {
     event.preventDefault()
     try {
       const user = await loginService.login({
-        username, password
+        username: username.value,
+        password: password.value
       })
 
       window.localStorage.setItem(
@@ -57,8 +59,6 @@ const App = () => {
       console.log(window.localStorage)
       blogService.setToken(user.token)
       setUser(user)
-      setUsername('')
-      setPassword('')
     } catch (exception) {
       setMessage('wrong username or password')
       setTimeout(() => {
@@ -125,9 +125,8 @@ const App = () => {
         <Notification message={message} />
         <LoginForm handleLogin = {handleLogin}
           username = {username}
-          setUsername = {setUsername}
           password = {password}
-          setPassword = {setPassword} />
+        />
       </div>
     )
   }
