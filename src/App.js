@@ -48,8 +48,8 @@ const App = () => {
     event.preventDefault()
     try {
       const user = await loginService.login({
-        username: username.value,
-        password: password.value
+        username: username.props.value,
+        password: password.props.value
       })
 
       window.localStorage.setItem(
@@ -84,15 +84,17 @@ const App = () => {
       return
     }
     const blogObject = {
-      title: newTitle.value,
-      author: newAuthor.value,
-      url: newUrl.value
+      title: newTitle.props.value,
+      author: newAuthor.props.value,
+      url: newUrl.props.value
     }
     const savedBlog = await blogService.create(blogObject)
     setBlogs(blogs.concat(savedBlog))
 
     setMessagetype('success')
-    setMessage('Added blog ' + newTitle + ' by ' + newAuthor)
+    const title = newTitle.props.value
+    const author = newAuthor.props.value
+    setMessage('Added blog ' + title + ' by ' + author)
     setTimeout(() => {
       setMessage(null)
       setMessagetype(null)
@@ -126,8 +128,8 @@ const App = () => {
         <h2>log in to blog application</h2>
         <Notification message={message} />
         <LoginForm handleLogin = {handleLogin}
-          username = {username}
-          password = {password}
+          username = {username.props}
+          password = {password.props}
         />
       </div>
     )
@@ -145,9 +147,9 @@ const App = () => {
       </div>
       <div style={showWhenVisible}>
         <BlogForm addBlog = {addBlog}
-          title = {newTitle}
-          author = {newAuthor}
-          url = {newUrl}
+          title = {newTitle.props}
+          author = {newAuthor.props}
+          url = {newUrl.props}
         />
         <button onClick={() => setBlogformVisible(false)}>cancel</button></div><br></br>
       {blogs.map(blog =>
